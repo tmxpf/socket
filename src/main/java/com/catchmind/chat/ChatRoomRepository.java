@@ -1,4 +1,4 @@
-package chat;
+package com.catchmind.chat;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.web.socket.WebSocketSession;

@@ -1,7 +1,6 @@
 package com.catchmind.websocket;
 
-import chat.ChatHandler;
-import core.network.LobbySocketHandler;
+import com.catchmind.chat.ChatHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
