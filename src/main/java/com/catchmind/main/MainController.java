@@ -10,9 +10,7 @@ public class MainController {
     @RequestMapping("/")
     public String home(Model model) {
 
-
-
-        return "index";
+        return "redirect:/com/catchmind/chat/rooms";
     }
 
 }

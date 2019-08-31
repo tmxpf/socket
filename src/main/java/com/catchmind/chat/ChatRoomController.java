@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
-@RequestMapping("/com/catchmind/chat")
+@RequestMapping
 public class ChatRoomController {
 
     private ChatRoomRepository repository;
@@ -21,21 +21,21 @@ public class ChatRoomController {
         this.repository = repository;
     }
 
-    @GetMapping("/rooms")
+    @GetMapping("/com/catchmind/chat/rooms")
     public String rooms(Model model) {
         model.addAttribute("rooms", repository.getChatRooms());
 
-        return "/chat/room-list";
+        return "chat1/room-list";
     }
 
-    @GetMapping("/rooms/{id}")
+    @GetMapping("/com/catchmind/chat/rooms/{id}")
     public String room(@PathVariable String id, Model model) {
         ChatRoom room = repository.getChatRoom(id);
 
         model.addAttribute("room", room);
         model.addAttribute("member", "member" + seq.incrementAndGet());
 
-        return "/chat/room";
+        return "chat1/room";
     }
 
 }

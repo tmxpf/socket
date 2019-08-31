@@ -1,3 +1,13 @@
 spring:
   mustache:
     suffix: .html
+  security:
+    basic:
+      enabled: false
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+  freemarker:
+    cache: false
