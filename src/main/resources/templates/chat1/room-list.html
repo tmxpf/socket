@@ -9,7 +9,7 @@
 <h1>채팅방 목록</h1>
 <ul>
     <tr th:each="room: ${rooms}">
-        <li><a th:href="@{'/chat/rooms/' + ${room.id}}" th:text="${room.name}"></a></li>
+        <li><a th:href="@{'/com/catchmind/chat/rooms/' + ${room.id}}" th:text="${room.name}"></a></li>
     </tr>
 
     <!--{{#rooms}}}

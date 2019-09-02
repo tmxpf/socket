@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${room.name}"></title>
-    <script src="/webjars/jquery/3.4.1/jquery.js"></script>
-    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
-    <!--<script src="/webjars/stomp-websocket/2.3.3-1/stomp.js"></script>
-    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="/webjars/jquery/dist/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 </head>
 <body>
+
     <h1 th:text="${room.name}"></h1>
     <div class="content" th:attr="data-room-id=${room.id},data-member=${member}">
         <ul class="chat_box"></ul>
@@ -19,16 +17,16 @@
 
     <script>
         $(function() {
-           var chatBox = $('.chat_box');
-           var messageInput = $('input[name="message"]');
-           var sendBtn = $('.send');
-           var roomId = $('.content').data('room-id');
-           var member = $('.content').data('member');
+            var chatBox = $('.chat_box');
+            var messageInput = $('input[name="message"]');
+            var sendBtn = $('.send');
+            var roomId = $('.content').data('room-id');
+            var member = $('.content').data('member');
 
-           //handshake
-           var sock = new SockJS("/ws/chat");
+            //handshake
+            var sock = new SockJS("/ws/chat");
 
-           //onopen : connection이 맺어졌을 때의 callback
+            //onopen : connection이 맺어졌을 때의 callback
             sock.onopen = function() {
                 //send : connection으로 message전달.
                 //connection이 맺어진 후 가입(join) 메시지를 전달
@@ -42,13 +40,14 @@
             };
 
             sendBtn.click(function() {
-               var message = messageInput.val();
+                var message = messageInput.val();
 
-               sock.send(JSON.stringify({chatRoomId: roomId, type: 'CHAT', message: message, writer: member}));
-               messageInput.val('');
+                sock.send(JSON.stringify({chatRoomId: roomId, type: 'CHAT', message: message, writer: member}));
+                messageInput.val('');
             });
 
         });
     </script>
+
 </body>
 </html>
