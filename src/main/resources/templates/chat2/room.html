@@ -5,8 +5,8 @@
     <title th:text="${room.name}"></title>
     <script src="/webjars/jquery/3.4.1/jquery.js"></script>
     <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
-    <!--<script src="/webjars/stomp-websocket/2.3.3-1/stomp.js"></script>
-    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>-->
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 </head>
 <body>
@@ -26,25 +26,26 @@
            var member = $('.content').data('member');
 
            //handshake
-           var sock = new SockJS("/ws/chat");
+           var sock = new SockJS("/stomp-chat");
+           var client = Stomp.over(sock);
 
-           //onopen : connection이 맺어졌을 때의 callback
-            sock.onopen = function() {
-                //send : connection으로 message전달.
-                //connection이 맺어진 후 가입(join) 메시지를 전달
-                sock.send(JSON.stringify({chatRoomId: roomId, type: "JOIN", writer: member}));
+            client.debug = function(e) {
 
-                //onmessage : message를 받았을 때의 callback
-                sock.onmessage = function(e) {
-                    var content = JSON.parse(e.data);
-                    chatBox.append('<li>' + content.message + '(' + content.writer + ')' + '</li>');
-                }
             };
+
+            client.connect({}, function () {
+                client.send('/publish/chat/join', {}, JSON.stringify({chatRoomId: roomId, type: 'JOIN', writer: member}));
+
+                client.subscribe('/subscribe/chat/room/' + roomId, function (chat) {
+                    var content = JSON.parse(chat.body);
+                    chatBox.append('<li>' + content.message + '(' + content.writer + ')</li>')
+                });
+            });
 
             sendBtn.click(function() {
                var message = messageInput.val();
 
-               sock.send(JSON.stringify({chatRoomId: roomId, type: 'CHAT', message: message, writer: member}));
+               client.send('/publish/chat/message', {}, JSON.stringify({chatRoomId: roomId, type: 'CHAT', message: message, writer: member}));
                messageInput.val('');
             });
 

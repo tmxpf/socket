@@ -25,7 +25,7 @@ public class ChatRoomController {
     public String rooms(Model model) {
         model.addAttribute("rooms", repository.getChatRooms());
 
-        return "chat1/room-list";
+        return "chat2/room-list";
     }
 
     @GetMapping("/com/catchmind/chat/rooms/{id}")
@@ -35,7 +35,7 @@ public class ChatRoomController {
         model.addAttribute("room", room);
         model.addAttribute("member", "member" + seq.incrementAndGet());
 
-        return "chat1/room";
+        return "chat2/room";
     }
 
 }
