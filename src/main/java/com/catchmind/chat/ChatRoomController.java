@@ -25,7 +25,7 @@ public class ChatRoomController {
     public String rooms(Model model) {
         model.addAttribute("rooms", repository.getChatRooms());
 
-        return "chat2/room-list";
+        return "stomp/socketPage";
     }
 
     @GetMapping("/com/catchmind/chat/rooms/{id}")
